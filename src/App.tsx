@@ -3,6 +3,7 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import StudentPage from "./pages/StudentPage";
 import TeacherPage from "./pages/TeacherPage";
 import Login from "./pages/login";
+import SignUpStudent from "./pages/SignUpStudent";
 
 function Home() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function App() {
           <Route path="/student" element={<StudentPage />} />
           <Route path="/teacher" element={<TeacherPage />} />
           <Route path="/login" element={<Login/>} />
-
+          <Route path="/signupstudent" element={<SignUpStudent/>} />
         </Routes>
       </Router>
     </Authenticator.Provider>
