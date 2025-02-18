@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { Authenticator } from "@aws-amplify/ui-react";
 import StudentPage from "./pages/StudentPage";
 import TeacherPage from "./pages/TeacherPage";
 
@@ -16,13 +17,15 @@ function Home() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/student" element={<StudentPage />} />
-        <Route path="/teacher" element={<TeacherPage />} />
-      </Routes>
-    </Router>
+    <Authenticator.Provider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/student" element={<StudentPage />} />
+          <Route path="/teacher" element={<TeacherPage />} />
+        </Routes>
+      </Router>
+    </Authenticator.Provider>
   );
 }
 
