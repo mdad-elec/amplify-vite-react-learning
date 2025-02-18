@@ -11,10 +11,11 @@ const schema = a.schema({
     .model({
       name: a.string(),
       email: a.string(),
-      studentClass: a.enum(["1", "2", "3"]), // Restrict to class 1, 2, or 3
+      studentClass: a.enum(["CLASS_1", "CLASS_2", "CLASS_3"]), // Use valid enum values
     })
     .authorization((allow) => [allow.authenticated()]), // Only authenticated users can access
 });
+
 
 export type Schema = ClientSchema<typeof schema>;
 
