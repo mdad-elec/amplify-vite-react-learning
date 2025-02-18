@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-route
 import { Authenticator } from "@aws-amplify/ui-react";
 import StudentPage from "./pages/StudentPage";
 import TeacherPage from "./pages/TeacherPage";
+import Login from "./pages/login";
 
 function Home() {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/student" element={<StudentPage />} />
           <Route path="/teacher" element={<TeacherPage />} />
+          <Route path="/login" element={<Login/>} />
+
         </Routes>
       </Router>
     </Authenticator.Provider>
