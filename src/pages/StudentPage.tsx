@@ -13,12 +13,16 @@ function StudentPage() {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/login"); // Redirect to login if user is not authenticated
     }
-    client.models.Todo.observeQuery().subscribe({
+    // Fetching todos after successful login
+    const subscription = client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
     });
-  }, [user]);
+
+    // Clean up subscription on unmount
+    return () => subscription.unsubscribe();
+  }, [user, navigate]);
 
   function createTodo() {
     client.models.Todo.create({ content: window.prompt("Todo content") });
@@ -27,14 +31,20 @@ function StudentPage() {
   return (
     <main>
       <h1>Student Page</h1>
-      <p>Welcome, {user?.username}!</p>
-      <button onClick={signOut}>Sign Out</button>
-      <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
-        ))}
-      </ul>
+      {user ? (
+        <>
+          <p>Welcome, {user?.username}!</p>
+          <button onClick={signOut}>Sign Out</button>
+          <button onClick={createTodo}>+ new</button>
+          <ul>
+            {todos.map((todo) => (
+              <li key={todo.id}>{todo.content}</li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
     </main>
   );
 }
