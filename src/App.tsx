@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
-import Login from "./pages/Login";
+import Login from "./pages/login";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/HomePage";
 import Assessment1 from "./pages/Assessment1";
