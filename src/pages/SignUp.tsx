@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { signUp } from "@aws-amplify/auth"; // ✅ Correct import for Gen 2
+import { signUp } from "@aws-amplify/auth";
+import { useNavigate } from "react-router-dom";
 
-function SignUpStudent() {
+function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const navigate = useNavigate();
 
   async function handleSignUp() {
     try {
@@ -20,6 +22,7 @@ function SignUpStudent() {
       });
 
       alert("Sign-up successful! Check your email to verify.");
+      navigate("/login"); // Redirect to login after successful signup
     } catch (error) {
       console.error("Sign-up error:", error);
       alert("Sign-up failed. Check console for details.");
@@ -37,4 +40,4 @@ function SignUpStudent() {
   );
 }
 
-export default SignUpStudent;
+export default SignUp;
