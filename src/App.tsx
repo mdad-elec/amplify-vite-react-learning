@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import Login from "./pages/login";
+import ConfirmAccount from "./pages/ConfirmAccount";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/HomePage";
 import Assessment1 from "./pages/Assessment1";
@@ -30,6 +31,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/confirm" element={<ConfirmAccount />} />
 
           {/* Protected Routes */}
           <Route
