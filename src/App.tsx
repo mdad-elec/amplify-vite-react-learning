@@ -1,32 +1,26 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Home from "./pages/HomePage";
 import Assessment1 from "./pages/Assessment1";
 import Assessment2 from "./pages/Assessment2";
 import Assessment3 from "./pages/Assessment3";
 
 function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const { user } = useAuthenticator((context) => [context.user]);
+  const { user, authStatus } = useAuthenticator((context) => [context.user, context.authStatus]);
 
+  // Wait for authentication status to avoid incorrect redirections
+  if (authStatus === "configuring") {
+    return <div>Loading...</div>;
+  }
+
+  // Redirect to login if user is not authenticated
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
   return children;
-}
-
-function Home() {
-  const navigate = useNavigate();
-
-  return (
-    <main>
-      <h1>Select Class</h1>
-      <button onClick={() => navigate("/class1")}>Class 1</button>
-      <button onClick={() => navigate("/class2")}>Class 2</button>
-      <button onClick={() => navigate("/class3")}>Class 3</button>
-    </main>
-  );
 }
 
 function App() {
@@ -39,7 +33,7 @@ function App() {
 
           {/* Protected Routes */}
           <Route
-            path="/"
+            path="/app"
             element={
               <ProtectedRoute>
                 <Home />
@@ -70,6 +64,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Redirect root to /app */}
+          <Route path="/" element={<Navigate to="/app" replace />} />
         </Routes>
       </Router>
     </Authenticator.Provider>

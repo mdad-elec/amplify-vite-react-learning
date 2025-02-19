@@ -1,17 +1,26 @@
 import { signIn } from "@aws-amplify/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuthenticator((context) => [context.user]);
+
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/app", { replace: true });
+    }
+  }, [user, navigate]);
 
   async function handleLogin() {
     try {
       await signIn({ username: email, password });
       alert("Login successful!");
-      navigate("/student"); // Redirect after login
+      navigate("/app", { replace: true }); // Ensure navigation happens
     } catch (error) {
       console.error("Error logging in:", error);
       alert("Login failed.");
