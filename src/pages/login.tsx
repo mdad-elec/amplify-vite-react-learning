@@ -7,7 +7,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { user } = useAuthenticator((context) => [context.user]);
+  // Removed the unused 'user' declaration
+  useAuthenticator((context) => [context.user]);
 
   // Check if user is authenticated and redirect
   useEffect(() => {
