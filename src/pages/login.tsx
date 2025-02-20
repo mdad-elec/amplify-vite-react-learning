@@ -1,36 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signIn, fetchAuthSession } from "@aws-amplify/auth";
-import { useAuthenticator } from "@aws-amplify/ui-react";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  // Removed the unused 'user' declaration
-  useAuthenticator((context) => [context.user]);
-
-  // Check if user is authenticated and redirect
-  useEffect(() => {
-    async function checkAuth() {
-      try {
-        const session = await fetchAuthSession();
-        if (session) {
-          navigate("/app", { replace: true });
-        }
-      } catch (error) {
-        console.log("Not authenticated", error);
-      }
-    }
-    checkAuth();
-  }, [navigate]);
 
   async function handleLogin() {
     try {
       await signIn({ username: email, password });
-      // Refresh the session after successful sign-in
-      await fetchAuthSession();
-      navigate("/app", { replace: true });
+      // Only redirect after successful login
+      const session = await fetchAuthSession();
+      if (session) {
+        navigate("/app", { replace: true });
+      }
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed.");
