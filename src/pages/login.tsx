@@ -10,7 +10,6 @@ function Login() {
   async function handleLogin() {
     try {
       await signIn({ username: email, password });
-      // Only redirect after successful login
       const session = await fetchAuthSession();
       if (session) {
         navigate("/app", { replace: true });
@@ -22,7 +21,10 @@ function Login() {
   }
 
   return (
-    <div>
+    <div className="login-container">
+      {/* Image from the public directory */}
+      <img src="/logo.jpg" alt="App Logo" className="login-logo" />
+
       <h2>Login</h2>
       <input
         type="email"
