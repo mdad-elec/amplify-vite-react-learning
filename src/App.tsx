@@ -9,7 +9,7 @@ import Assessment2 from "./pages/Assessment2";
 import Assessment3 from "./pages/Assessment3";
 
 function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const { user, authStatus } = useAuthenticator((context) => [context.user, context.authStatus]);
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
 
   if (authStatus === "configuring" || authStatus === "unauthenticated") {
     return <Navigate to="/login" replace />;
