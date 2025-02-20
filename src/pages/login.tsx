@@ -1,6 +1,6 @@
-import { signIn } from "@aws-amplify/auth";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { signIn, fetchAuthSession } from "@aws-amplify/auth";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 function Login() {
@@ -9,20 +9,29 @@ function Login() {
   const navigate = useNavigate();
   const { user } = useAuthenticator((context) => [context.user]);
 
-  // Redirect if user is already logged in
+  // Check if user is authenticated and redirect
   useEffect(() => {
-    if (user) {
-      navigate("/app", { replace: true });
+    async function checkAuth() {
+      try {
+        const session = await fetchAuthSession();
+        if (session) {
+          navigate("/app", { replace: true });
+        }
+      } catch (error) {
+        console.log("Not authenticated", error);
+      }
     }
-  }, [user, navigate]);
+    checkAuth();
+  }, [navigate]);
 
   async function handleLogin() {
     try {
       await signIn({ username: email, password });
-      alert("Login successful!");
-      navigate("/app", { replace: true }); // Ensure navigation happens
+      // Refresh the session after successful sign-in
+      await fetchAuthSession();
+      navigate("/app", { replace: true });
     } catch (error) {
-      console.error("Error logging in:", error);
+      console.error("Login error:", error);
       alert("Login failed.");
     }
   }
@@ -30,8 +39,18 @@ function Login() {
   return (
     <div>
       <h2>Login</h2>
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <button onClick={handleLogin}>Login</button>
       <button onClick={() => navigate("/signup")}>Sign Up</button>
     </div>
