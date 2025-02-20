@@ -6,7 +6,7 @@ function Home() {
   return (
     <main
       style={{
-        backgroundImage: 'url("/background.jpg")', // Replace with your image filename
+        backgroundImage: 'url("/logo.jpg")', // Replace with your image filename
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
