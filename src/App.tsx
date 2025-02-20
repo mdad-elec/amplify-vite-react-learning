@@ -11,13 +11,7 @@ import Assessment3 from "./pages/Assessment3";
 function ProtectedRoute({ children }: { children: JSX.Element }) {
   const { user, authStatus } = useAuthenticator((context) => [context.user, context.authStatus]);
 
-  // Wait for authentication status to avoid incorrect redirections
-  if (authStatus === "configuring") {
-    return <div>Loading...</div>;
-  }
-
-  // Redirect to login if user is not authenticated
-  if (!user) {
+  if (authStatus === "configuring" || authStatus === "unauthenticated") {
     return <Navigate to="/login" replace />;
   }
 
